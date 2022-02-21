@@ -72,8 +72,10 @@ class User(AbstractBaseUser, PermissionsMixin):
 
         return token.encode('utf-8')
 
+
 class NotAllData(Exception):
     pass
+
 
 class ExcelFile(models.Model):
     STATUS_VALUES = [
@@ -107,7 +109,7 @@ class ExcelFile(models.Model):
         self.excel_file.delete(save=False)
         super().delete(*args, **kwargs)
 
-    def proccessing_file(self):
+    def processing_file(self):
         wb = load_workbook(filename=self.excel_file.path, data_only=True, read_only=True)
 
         is_find = False

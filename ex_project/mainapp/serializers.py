@@ -2,6 +2,7 @@ from rest_framework import serializers
 from .models import User, ExcelFile
 from django.contrib.auth import authenticate
 
+
 class RegistrationSerializer(serializers.ModelSerializer):
     password = serializers.CharField(
         max_length=128,
@@ -16,6 +17,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         return User.objects.create_user(**validated_data)
+
 
 class LoginSerializer(serializers.Serializer):
     email = serializers.CharField(max_length=255)
@@ -56,6 +58,7 @@ class LoginSerializer(serializers.Serializer):
             'token': user.token.decode('utf-8')
         }
 
+
 class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(
         max_length=128,
@@ -80,11 +83,12 @@ class UserSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
 
+
 class ExcelSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ExcelFile
-        fields = ('excel_file', 'uploaded_at', 'handled_at', 'status', 'result')
+        fields = ('id', 'excel_file', 'uploaded_at', 'handled_at', 'status', 'result')
         read_only_fields = ('status', 'result' )
 
     def validate(self, data):
@@ -98,4 +102,3 @@ class ExcelSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         return ExcelFile.objects.create(result='0',**validated_data)
-
